@@ -1,0 +1,19 @@
+services:
+  - name: nexus-api
+    git:
+      repository: github.com/BILMZA/Arch_Technologies_Final_Task
+      branch: main
+      workdir: server
+      build_command: npm install
+      run_command: node src/server.js
+    instance_type: nano
+    regions:
+      - fra
+    ports:
+      - port: 5000
+        protocol: http
+    env:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "5000"
