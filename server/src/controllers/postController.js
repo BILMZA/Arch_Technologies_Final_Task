@@ -51,7 +51,7 @@ const createPost = async (req, res) => {
 const getPosts = async (req, res) => {
   try {
     const posts = await Post.find()
-      .populate("author", "name email profilePicture")
+      .populate("author", "name email profilePicture friends")
       .sort({ createdAt: -1 });
 
     const visiblePosts = posts.filter((post) => {
@@ -64,11 +64,13 @@ const getPosts = async (req, res) => {
       }
 
       if (post.privacy === "friends") {
+        // Author's friends are now populated; check if the requester is the author or a friend
         return (
           post.author._id.toString() === req.userId.toString() ||
-          post.author.friends?.some(
-            (friendId) => friendId.toString() === req.userId.toString()
-          )
+          (post.author.friends &&
+            post.author.friends.some(
+              (friendId) => friendId.toString() === req.userId.toString()
+            ))
         );
       }
 

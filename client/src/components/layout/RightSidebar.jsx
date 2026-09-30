@@ -130,7 +130,7 @@ export const RightSidebar = ({
           </button>
           <span>•</span>
           <a
-            href="http://localhost:5000"
+            href={import.meta.env.VITE_API_URL || "http://localhost:5000"}
             target="_blank"
             rel="noreferrer"
             className="hover:underline cursor-pointer flex items-center gap-1"
